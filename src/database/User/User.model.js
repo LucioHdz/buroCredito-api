@@ -103,6 +103,29 @@ User.delete = (id, callback) => {
 
 
 
+User.login = (user, password, callback) => {
+    database.query(`SELECT
+        persona.idPersona, 
+        usuariorol.idRol
+    FROM
+        persona
+    INNER JOIN
+        usuariorol
+    ON 
+        persona.idPersona = usuariorol.idPersona
+    WHERE 
+        persona.user = '${user}' and persona.password = '${password}'`,
+        (err, res) => {
+            if (err) {
+                callback(err, null)
+            } else {
+                callback(null, res)
+            }
+        }
+    )
+}
+
+
 
 module.exports = User
 

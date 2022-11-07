@@ -11,6 +11,7 @@ user.patch('/:id',UserRoute.update)
 // delete user
 user.delete('/:id',UserRoute.delete)
 
+user.post('/login',UserRoute.login)
 
 
 module.exports = user;

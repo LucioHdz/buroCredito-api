@@ -65,3 +65,18 @@ exports.delete = (req, res) => {
         }
     })
 }
+
+
+
+exports.login = (req, res) =>{
+    const user = req.body.user
+    const password = req.body.password
+    User.login(user, password,(err,response)=>{
+        if (err){
+            res.status(500).json({message:
+            err.message || 'Some error occurred while logging in'})
+        }else{
+            res.status(200).json(response);
+        }
+    })
+}
