@@ -55,7 +55,7 @@ User.findByRFC = (rfc, callback) => {
             if (err) {
                 callback(err, null);
             } else {
-                callback(null, res[0]);
+                callback(null, res);
             }
         })
 }
