@@ -48,8 +48,8 @@ Card.update = (id, newCard, callback) => {
         noTarjeta = '${newCard.card}',
         noCuenta = '${newCard.account}',
         claveInterbancaria= '${newCard.interbankKey}',
-        nombresPersona = '${newCard.name}',
-        apellidosPersonas = '${newCard.surname}'
+        nombresPersona = '${newCard.name.toUpperCase()}',
+        apellidosPersonas = '${newCard.surname.toUpperCase()}'
         WHERE idTarjeta = ${id}`, (err, res) => {
         if (err) callback(err, { update: false });
         else callback(null, { update: true });

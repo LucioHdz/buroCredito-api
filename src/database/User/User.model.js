@@ -1,5 +1,6 @@
 const { v4: uuidv4 } = require('uuid');
 const database = require('../connection');
+const jwt = require('jsonwebtoken');
 
 
 
@@ -16,9 +17,14 @@ const User = function (userData) {
     this.state = userData.state;
     this.region = userData.region;
     this.suburb = userData.suburb;
+    this.email = userData.email;
+    this.birthdate = userData.birthdate;
+    this.accountType = userData.accountType;
+    this.exteriorNumber = userData.exteriorNumber;
     this.user = userData.user;
     this.password = userData.password;
-    this.email = userData.email;
+    this.country = userData.country;
+    this.nationality = userData.nationality;
 };
 
 
@@ -28,13 +34,16 @@ User.create = (newUser, callback) => {
     '${newUser.surname}',
     '${newUser.secondSurname}',
     '${newUser.rfc}',
-    '${newUser.direction}',
+    '${newUser.direccion}',
     '${newUser.city}',
     '${newUser.postalCode}',
     '${newUser.state}',
     '${newUser.region}',
     '${newUser.suburb}',
     '${newUser.email}',
+    '${newUser.birthdate}',
+    '${newUser.accountType}',
+    '${newUser.exteriorNumber}',
     '${newUser.user}',
     '${newUser.password}'
     )`, (err) => {
@@ -62,9 +71,10 @@ User.findByRFC = (rfc, callback) => {
 
 
 User.update = (id, userData, callback) => {
+    console.log(userData)
     database.query(`UPDATE persona SET
         
-    nombres = '${userData.name}',
+    nombre = '${userData.name}',
     primerApellido = '${userData.surname}',
     segundoApellido = '${userData.secondSurname}',
     rfc = '${userData.rfc}',
@@ -77,7 +87,12 @@ User.update = (id, userData, callback) => {
     user = '${userData.user}',
     password = '${userData.password}',
     status = 1,
-    email = '${userData.email}'
+    email = '${userData.email}',
+    fechaNacimiento = '${userData.birthdate}',
+    TipoCuenta = '${userData.accountType}',
+    noExterior = '${userData.exteriorNumber}',
+    pais = '${userData.country}',
+    nacionalidad = '${userData.nationality}'
     WHERE idPersona = '${id}'`, (err) => {
         if (err) {
             callback(err, { patch: false })
@@ -104,22 +119,21 @@ User.delete = (id, callback) => {
 
 
 User.login = (user, password, callback) => {
-    database.query(`SELECT
-        persona.idPersona, 
-        usuariorol.idRol
-    FROM
-        persona
-    INNER JOIN
-        usuariorol
-    ON 
-        persona.idPersona = usuariorol.idPersona
-    WHERE 
-        persona.user = '${user}' and persona.password = '${password}'`,
+    database.query(`call login('${user}','${password}')`,
         (err, res) => {
             if (err) {
                 callback(err, null)
             } else {
-                callback(null, res)
+                if (res[0].length !== 1){
+                    callback({message:'incorrect value for User or password '},null)
+                }else{
+
+                    const datos = { idPersona: res[0][0].idPersona,idRol: res[0][0].idRol}
+                    
+                    let token = jwt.sign(datos, `codewaykeytoken`, { expiresIn: '1h' })
+                    const respuesta = { token: token,type : res[0][0].idRol }
+                    callback(null,respuesta)
+                } 
             }
         }
     )
