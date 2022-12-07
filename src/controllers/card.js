@@ -1,11 +1,12 @@
 const { validateTokenAdmin, validateToken } = require('../../utils/tokenValidation');
+const { keyAccess } = require('../configs/ConstantTokens');
 const Card = require('../database/Card/Card.model');
 
 
 
 exports.create = (req, res) => {
     const token = req.headers['authorization'];
-    const validacion = validateTokenAdmin(token, 'codewaykeytoken');
+    const validacion = validateTokenAdmin(token, keyAccess);
     if (!req.body) {
         res.status(400).json({ message: 'Content can not be empty!' });
     }
@@ -31,7 +32,7 @@ exports.create = (req, res) => {
 
 exports.read = (req, res) => {
     const token = req.headers['authorization'];
-    const validacion = validateToken(token, 'codewaykeytoken');
+    const validacion = validateToken(token, keyAccess);
     if (validacion) {
 
         Card.read((err, response) => {
@@ -48,7 +49,7 @@ exports.read = (req, res) => {
 exports.update = (req, res) => {
     const id = req.params.id
     const token = req.headers['authorization'];
-    const validacion = validateTokenAdmin(token, 'codewaykeytoken');
+    const validacion = validateTokenAdmin(token, keyAccess);
     if (validacion) {
 
         if (!req.body) {
@@ -74,7 +75,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
     const id = req.params.id
     const token = req.headers['authorization'];
-    const validacion = validateTokenAdmin(token, 'codewaykeytoken');
+    const validacion = validateTokenAdmin(token, keyAccess);
     if (validacion) {
 
         Card.delete(id, (err, response) => {

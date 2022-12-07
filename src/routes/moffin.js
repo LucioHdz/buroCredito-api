@@ -3,7 +3,7 @@ const Moffin = require('../controllers/moffin');
 
 
 moffin.post('/:id',Moffin.create);
-moffin.get('/:id',Moffin.read);
+moffin.get('/',Moffin.read);
 
 
 

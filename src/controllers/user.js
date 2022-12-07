@@ -1,4 +1,5 @@
 const { validateToken } = require('../../utils/tokenValidation');
+const { keyAccess } = require('../configs/ConstantTokens');
 const User = require('../database/User/User.model')
 
 
@@ -24,7 +25,7 @@ exports.findByRFC = (req, res) => {
     const rfc = req.params.rfc;
 
     const token = req.headers['authorization'];
-    const validacion = validateToken(token, 'codewaykeytoken');
+    const validacion = validateToken(token, keyAccess);
     if (validacion) {
         User.findByRFC(rfc, (err, response) => {
             if (err) {
@@ -48,7 +49,7 @@ exports.update = (req, res) => {
     if (!req.body) {
         res.status(400).send({ message: 'Content can not be empty!' })
     }
-    if (validateToken(token, 'codewaykeytoken')) {
+    if (validateToken(token, keyAccess)) {
 
 
         const newUser = new User(req.body);
@@ -69,7 +70,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
     const id = req.params.id
     const token = req.headers['authorization'];
-    if (validateToken(token, 'codewaykeytoken')) {
+    if (validateToken(token, keyAccess)) {
 
         User.delete(id, (err, response) => {
             if (err) {

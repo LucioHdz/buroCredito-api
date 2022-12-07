@@ -21,3 +21,12 @@ module.exports.validateTokenAdmin = (token,keyAccess)=>{
     })
     return response;
 }
+module.exports.getIdByToken = (token,keyAccess)=>{
+    var response = null;
+    jwt.verify(token, keyAccess,(err, user) => {
+        if (user){
+            response = user.idPersona;
+        }
+    })
+    return response;
+}

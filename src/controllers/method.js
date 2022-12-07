@@ -1,11 +1,12 @@
 const { validateTokenAdmin, validateToken } = require('../../utils/tokenValidation');
+const { keyAccess } = require('../configs/ConstantTokens');
 const Method = require('../database/Methods/Method.model');
 const method = require('../routes/method');
 
 
 exports.create = (req, res) => {
     const token = req.headers['authorization'];
-    const validacion = validateTokenAdmin(token, 'codewaykeytoken');
+    const validacion = validateTokenAdmin(token, keyAccess);
     if (validacion) {
         const token = req
         if (!req.body) {
@@ -29,7 +30,7 @@ exports.create = (req, res) => {
 
 exports.read = (req, res) => {
     const token = req.headers['authorization'];
-    const validacion = validateToken(token, 'codewaykeytoken');
+    const validacion = validateToken(token, keyAccess);
     if (validacion) {
 
         Method.read((err, response) => {
@@ -48,7 +49,7 @@ exports.read = (req, res) => {
 
 exports.update = (req, res) => {
     const token = req.headers['authorization'];
-    const validacion = validateTokenAdmin(token, 'codewaykeytoken');
+    const validacion = validateTokenAdmin(token, keyAccess);
     if (validacion) {
         const id = req.params.id
         if (!req.body) {
@@ -65,7 +66,7 @@ exports.update = (req, res) => {
 
 exports.delete = (req, res) => {
     const token = req.headers['authorization'];
-    const validacion = validateTokenAdmin(token, 'codewaykeytoken');
+    const validacion = validateTokenAdmin(token, keyAccess);
     if (validacion) {
         const id = req.params.id;
         Method.delete(id, (err, response) => {
