@@ -4,25 +4,24 @@ La API se encarga de realizar las consultas a la base de datos y de seguridad de
 
 ## Estructura de la API
 
-
 .
 
-├──**src**
+├─ **src**
 
-│   ├──_configs_
+│   ├── _configs_
 
-│   ├──*controllers*
+│   ├── *controllers*
 
-│   ├──*database*
+│   ├── *database*
 
-│   ├──*routes*
+│   │     ├── _Card_
 
-├──**utils**
+│   │     ├── *Methods*
 
+│   │     ├── *Moffin*
 
+│   │     └── *User*
 
+│   └── *routes*
 
-
-
-
-
+└── **utils**
