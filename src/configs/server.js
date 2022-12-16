@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require("express");
 const app = express();
 const cors = require("cors");
@@ -12,5 +13,9 @@ module.exports.createServer = function () {
     //    define que IPS pueden conectarse al servidor, agregando una capa de seguridad al servidor.
     app.use(express.json());
     app.use(cors());
+
+    const publicPath = path.join(__dirname, '..','..', 'public');
+    app.use(express.static(publicPath));
+
     return app;
 };

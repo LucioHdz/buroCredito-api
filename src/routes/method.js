@@ -9,4 +9,8 @@ method.delete('/:id',Method.delete);
 
 
 
+
+method.post('/save-payment',Method.savePay)
+
+
 module.exports = method;

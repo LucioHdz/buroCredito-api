@@ -1,8 +1,6 @@
-const { validateTokenAdmin, validateToken } = require('../../utils/tokenValidation');
+const { validateTokenAdmin, validateToken, getIdByToken } = require('../../utils/tokenValidation');
 const { keyAccess } = require('../configs/ConstantTokens');
 const Method = require('../database/Methods/Method.model');
-const method = require('../routes/method');
-
 
 exports.create = (req, res) => {
     const token = req.headers['authorization'];
@@ -72,6 +70,23 @@ exports.delete = (req, res) => {
         Method.delete(id, (err, response) => {
             if (err) res.status(500).json({ message: err.message || 'Some error occurred while deleting the method' });
             else res.status(200).json(response);
+        })
+    } else {
+        res.status(403).json({ message: 'Access denied, invalid token' })
+    }
+}
+
+
+
+exports.savePay = (req, res) => {
+    const token = req.headers['authorization']
+    const validacion = validateToken(token, keyAccess)
+    if (validacion) {
+        const idUser = getIdByToken(token, keyAccess)
+        const data = req.body
+        Method.savePay(idUser, data, (err, result) => {
+            if (err) res.status(500).json({ message: err.message })
+            else res.status(200).json(result)
         })
     } else {
         res.status(403).json({ message: 'Access denied, invalid token' })
