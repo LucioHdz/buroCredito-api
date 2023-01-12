@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node .",
-    "dev": "nodemon .",
+    "dev": "nodemon dist/index.js",
     "build": "webpack"
   },
   "keywords": [],
@@ -19,8 +19,6 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.20",
-    "webpack": "^5.75.0",
-    "webpack-cli": "^5.0.1"
+    "nodemon": "^2.0.20"
   }
 }
