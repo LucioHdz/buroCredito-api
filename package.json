@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node .",
-    "dev": "nodemon dist/index.js",
-    "build": "webpack"
+    "dev": "nodemon dist/index.js"
   },
   "keywords": [],
   "author": "",
